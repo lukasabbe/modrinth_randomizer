@@ -5,8 +5,12 @@
     <title>Modrinth project randomizer</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Protest+Guerrilla&family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Protest+Guerrilla&family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+    <meta content="Modrinth randomizer" property="og:title"/>
+    <meta content="Modrinth randomizer" property="og:site_name"/>
+    <meta content="Randomize a project from modrinth" property="og:description"/>
+    <meta content="https://random.lukasabbe.com" property="og:url"/>
 </head>
 <body>
     <div class="welcome">
@@ -21,7 +25,13 @@
     <div id="project_div"></div>
     <script>
         document.getElementById('randomize').addEventListener('click', async () => {
-            const response = await fetch('https://api.modrinth.com/v2/projects_random?count=10');
+            const FETCH_OPTIONS = {
+                method : 'GET',
+                headers: {
+                    'User-Agent': 'lukasabbe/modrinth_randomizer/1.56.0'
+                }
+            }
+            const response = await fetch('https://api.modrinth.com/v2/projects_random?count=10',FETCH_OPTIONS);
             const projects = await response.json();
             console.log(projects);
             const project = projects[0];
