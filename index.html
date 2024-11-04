@@ -24,17 +24,12 @@
     </div>
     <div id="project_div"></div>
     <script>
+        let projects = [];
         document.getElementById('randomize').addEventListener('click', async () => {
-            const FETCH_OPTIONS = {
-                method : 'GET',
-                headers: {
-                    'User-Agent': 'lukasabbe/modrinth_randomizer/1.56.0'
-                }
+            if(projects.length === 0){
+                projects = await getRandomProjects(25);
             }
-            const response = await fetch('https://api.modrinth.com/v2/projects_random?count=10',FETCH_OPTIONS);
-            const projects = await response.json();
-            console.log(projects);
-            const project = projects[0];
+            const project = projects.pop();
             document.getElementById("project_div").innerHTML = `
                 <div class="project">
                     <h2>${project.title}</h2>
@@ -45,6 +40,18 @@
                 </div>
             `;
         });
+
+        async function getRandomProjects(amount){
+            const FETCH_OPTIONS = {
+                method : 'GET',
+                headers: {
+                    'User-Agent': 'lukasabbe/modrinth_randomizer/1.56.0'
+                }
+            }
+            const response = await fetch('https://api.modrinth.com/v2/projects_random?count='+amount,FETCH_OPTIONS);
+            const projects = await response.json();
+            return projects;
+        }
     </script>
 </body>
 </html>
